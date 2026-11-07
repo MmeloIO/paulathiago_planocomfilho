@@ -1,0 +1,535 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Plano de Ação · Paula & Thiago</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=DM+Sans:wght@400;500;700&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#0A0C1A;--navy:#1E2761;--card:#121633;--gold:#C9A84C;--gold2:#E3C877;--txt:#E8E9F0;--mut:#9AA0BD;--line:rgba(201,168,76,.22);--ok:#5FBF8F;--warn:#E0A84C;--red:#D9706A}
+*{box-sizing:border-box;margin:0;padding:0}
+body{background:var(--bg);color:var(--txt);font-family:'DM Sans',sans-serif;line-height:1.55;font-size:15px}
+h1,h2,h3{font-family:'Playfair Display',serif;font-weight:700}
+.wrap{max-width:780px;margin:0 auto;padding:0 18px}
+#gate{position:fixed;inset:0;background:radial-gradient(circle at 50% 30%,#1E2761 0%,#0A0C1A 70%);display:flex;align-items:center;justify-content:center;z-index:99;padding:20px}
+.gbox{background:var(--card);border:1px solid var(--line);border-radius:18px;padding:36px 28px;max-width:380px;width:100%;text-align:center}
+.gbox h2{color:var(--gold);font-size:24px;margin-bottom:6px}
+.gbox p{color:var(--mut);font-size:14px;margin-bottom:20px}
+.gbox input{width:100%;padding:13px;border-radius:10px;border:1px solid var(--line);background:#0A0C1A;color:var(--txt);font-size:15px;text-align:center;margin-bottom:12px}
+.btn{display:inline-block;background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0A0C1A;border:0;padding:13px 26px;border-radius:10px;font-weight:700;font-size:15px;cursor:pointer;text-decoration:none;width:100%}
+#err{color:var(--red);font-size:13px;margin-top:10px;min-height:18px}
+#app{display:none}
+header{background:linear-gradient(160deg,#1E2761 0%,#0A0C1A 85%);padding:48px 0 40px;border-bottom:1px solid var(--line);text-align:center}
+.tag{display:inline-block;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--gold);border:1px solid var(--line);padding:5px 12px;border-radius:30px;margin-bottom:16px}
+header .q{color:var(--mut);font-size:16px;margin-bottom:10px}
+header .ans{font-family:'Playfair Display';font-size:54px;color:var(--gold);line-height:1.1}
+header .ans small{font-size:20px;color:var(--txt)}
+header .sub{margin-top:12px;font-size:16px}
+.hk{display:flex;justify-content:center;gap:10px;flex-wrap:wrap;margin-top:22px}
+.hk div{background:rgba(10,12,26,.5);border:1px solid var(--line);border-radius:12px;padding:10px 16px;font-size:13px;color:var(--mut)}
+.hk b{display:block;font-family:'Playfair Display';color:var(--txt);font-size:18px}
+section{padding:36px 0;border-bottom:1px solid rgba(255,255,255,.05)}
+.sec-n{color:var(--gold);font-size:12px;letter-spacing:2px;text-transform:uppercase;margin-bottom:4px}
+section h2{font-size:24px;margin-bottom:6px}
+.lead{color:var(--mut);margin-bottom:18px;font-size:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:20px}
+.ans-box{background:linear-gradient(150deg,rgba(201,168,76,.12),rgba(30,39,97,.5));border:1px solid var(--gold);border-radius:14px;padding:16px 18px;margin-top:16px;font-size:15px}
+.ans-box b{color:var(--gold2)}
+/* timeline */
+.tl{position:relative;padding-left:30px}
+.tl::before{content:'';position:absolute;left:10px;top:6px;bottom:6px;width:2px;background:linear-gradient(var(--gold),var(--navy))}
+.ti{position:relative;padding:0 0 22px}
+.ti:last-child{padding:0}
+.ti::before{content:'';position:absolute;left:-26px;top:4px;width:14px;height:14px;border-radius:50%;background:var(--bg);border:3px solid var(--gold)}
+.ti .w{font-size:11px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase}
+.ti .row{display:flex;justify-content:space-between;align-items:baseline;gap:10px;flex-wrap:wrap}
+.ti h3{font-size:18px}
+.ti .v{font-family:'Playfair Display';font-size:22px;color:var(--gold)}
+.ti p{font-size:13px;color:var(--mut)}
+/* steps renda */
+.stairs{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;align-items:end}
+.st{background:var(--card);border:1px solid var(--line);border-radius:12px 12px 4px 4px;padding:14px 10px;text-align:center;display:flex;flex-direction:column;justify-content:flex-end}
+.st .f{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:1px}
+.st .v{font-family:'Playfair Display';font-size:24px;color:var(--gold);margin:4px 0}
+.st .c{font-size:12px;color:var(--mut)}
+.st.on{border-color:var(--gold);background:linear-gradient(170deg,#1E2761,#121633)}
+/* decision */
+.dec{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.dc{border-radius:12px;padding:16px;font-size:14px}
+.dc .h{font-weight:700;margin-bottom:4px}
+.dc.g{background:rgba(95,191,143,.1);border:1px solid rgba(95,191,143,.35)}
+.dc.g .h{color:var(--ok)}
+.dc.y{background:rgba(224,168,76,.1);border:1px solid rgba(224,168,76,.35)}
+.dc.y .h{color:var(--warn)}
+/* sim */
+.sim{background:linear-gradient(160deg,#1E2761,#121633);border:1px solid var(--gold);border-radius:16px;padding:22px}
+.sim label{font-size:12px;color:var(--mut);text-transform:uppercase;letter-spacing:1px}
+.seg{display:flex;flex-wrap:wrap;gap:8px;margin:8px 0 16px}
+.seg button{background:transparent;border:1px solid var(--line);color:var(--txt);padding:7px 12px;border-radius:20px;font-size:13px;cursor:pointer;font-family:'DM Sans'}
+.seg button.on{background:var(--gold);color:#0A0C1A;border-color:var(--gold);font-weight:700}
+.sval{font-family:'Playfair Display';font-size:32px;color:var(--gold)}
+input[type=range]{width:100%;accent-color:var(--gold);margin:6px 0 4px}
+.sres{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:14px}
+.sres div{background:rgba(10,12,26,.55);border-radius:12px;padding:10px}
+.sres .l{font-size:10px;color:var(--mut);text-transform:uppercase;letter-spacing:1px}
+.sres .v{font-family:'Playfair Display';font-size:19px}
+#sst{margin-top:12px;padding:12px 14px;border-radius:12px;font-size:14px}
+/* boxes */
+.g2{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.bx2{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.bx2 .i{font-size:22px}
+.bx2 .v{font-family:'Playfair Display';font-size:22px;color:var(--gold)}
+.bx2 .t{font-weight:700;font-size:14px}
+.bx2 p{font-size:13px;color:var(--mut)}
+/* pós-parto */
+.pp{display:grid;grid-template-columns:96px 1fr;gap:14px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.pp:last-child{border:0}
+.pp .m{background:var(--navy);border:1px solid var(--gold);border-radius:10px;text-align:center;padding:8px 4px;font-size:12px;color:var(--gold);font-weight:700;align-self:start}
+.pp .m small{display:block;color:var(--mut);font-weight:400;font-size:11px}
+.pp h3{font-size:16px;font-family:'DM Sans';font-weight:700}
+.pp ul{list-style:none;margin-top:4px}
+.pp li{font-size:13px;color:var(--mut);padding:2px 0 2px 16px;position:relative}
+.pp li::before{content:'›';position:absolute;left:2px;color:var(--gold);font-weight:700}
+.rule{display:flex;gap:12px;padding:10px 0;font-size:14px;border-bottom:1px solid rgba(255,255,255,.06)}
+.rule:last-child{border:0}
+.rule span{color:var(--gold);font-family:'Playfair Display';font-size:20px;line-height:1.1;min-width:16px}
+.ck{display:flex;gap:12px;align-items:flex-start;padding:12px 0;border-bottom:1px solid rgba(255,255,255,.06);cursor:pointer}
+.ck:last-child{border:0}
+.ck .b{width:22px;height:22px;border:2px solid var(--gold);border-radius:6px;flex-shrink:0;display:flex;align-items:center;justify-content:center;margin-top:1px;color:#0A0C1A;font-weight:700;font-size:14px}
+.ck.done .b{background:var(--gold)}
+.ck.done .b::after{content:'✓'}
+.ck.done .t{text-decoration:line-through;color:var(--mut)}
+.ck .who{font-size:12px;color:var(--gold)}
+.cnt{font-family:'Playfair Display';color:var(--gold);font-size:18px}
+.prog{height:8px;background:rgba(255,255,255,.06);border-radius:10px;margin:6px 0 4px;overflow:hidden}
+.prog div{height:100%;width:0;background:linear-gradient(90deg,var(--navy),var(--gold));transition:.4s}
+.sub-h{font-size:12px;color:var(--gold);letter-spacing:1.5px;text-transform:uppercase;margin:18px 0 4px}
+.note{font-size:12px;color:var(--mut);margin-top:12px}
+.tabs{position:sticky;top:0;z-index:20;background:rgba(10,12,26,.92);backdrop-filter:blur(8px);border-bottom:1px solid var(--line)}
+.tabs .wrap{display:flex;gap:6px;padding-top:10px;padding-bottom:10px}
+.tabs button{flex:1;background:transparent;border:1px solid var(--line);color:var(--mut);padding:10px;border-radius:10px;font-family:'DM Sans';font-size:14px;font-weight:700;cursor:pointer;letter-spacing:.5px}
+.tabs button.on{background:linear-gradient(135deg,var(--gold),var(--gold2));color:#0A0C1A;border-color:var(--gold)}
+.pane{display:none}.pane.on{display:block}
+.kg{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.kc{background:var(--card);border:1px solid var(--line);border-radius:12px;padding:16px}
+.kc .l{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:1px}
+.kc .v{font-family:'Playfair Display';font-size:28px;color:var(--gold);line-height:1.2;margin:4px 0}
+.kc .d{font-size:12px;color:var(--mut)}
+table{width:100%;border-collapse:collapse;font-size:13px}
+th{text-align:left;color:var(--gold);font-weight:500;font-size:11px;text-transform:uppercase;letter-spacing:1px;padding:9px 6px;border-bottom:1px solid var(--line)}
+td{padding:9px 6px;border-bottom:1px solid rgba(255,255,255,.06)}
+.r{text-align:right}.c{text-align:center}
+.tw{overflow-x:auto}
+.hm td.c{font-weight:700;border-radius:6px}
+.h1{background:rgba(217,112,106,.22);color:var(--red)}.h2{background:rgba(224,168,76,.2);color:var(--warn)}.h3{background:rgba(95,191,143,.16);color:var(--ok)}.h4{background:rgba(95,191,143,.3);color:#9BE3BE}
+.stack{display:flex;height:34px;border-radius:10px;overflow:hidden;margin:14px 0 10px}
+.stack div{height:100%}
+.leg{display:grid;grid-template-columns:1fr 1fr;gap:6px 14px;font-size:12px;color:var(--mut)}
+.leg i{display:inline-block;width:10px;height:10px;border-radius:3px;margin-right:6px;vertical-align:middle}
+.mb{display:flex;align-items:flex-end;gap:16px;height:150px;padding:10px 6px 0;border-bottom:1px solid var(--line)}
+.mb .col{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.mb .bar2{width:100%;max-width:70px;border-radius:8px 8px 0 0;background:linear-gradient(180deg,var(--gold),var(--navy))}
+.mb .bv{font-size:12px;color:var(--txt);margin-bottom:4px}
+.ml{display:flex;gap:16px;padding:6px 6px 0}.ml div{flex:1;text-align:center;font-size:12px;color:var(--mut)}
+.ins{font-size:13px;margin-top:14px;padding:12px 14px;border-left:3px solid var(--gold);background:rgba(201,168,76,.07);border-radius:0 10px 10px 0}
+@media(max-width:600px){.kg{grid-template-columns:1fr 1fr}.kc .v{font-size:22px}.leg{grid-template-columns:1fr}}
+.pill{display:inline-block;font-size:11px;padding:2px 9px;border-radius:20px;font-weight:700;background:rgba(95,191,143,.15);color:var(--ok)}
+details.ent{margin-top:12px;background:rgba(30,39,97,.35);border:1px dashed rgba(201,168,76,.45);border-radius:12px;padding:0 14px;text-align:left}
+details.ent summary{cursor:pointer;list-style:none;padding:11px 0;font-size:13px;font-weight:700;color:var(--gold);display:flex;justify-content:space-between;align-items:center}
+details.ent summary::-webkit-details-marker{display:none}
+details.ent summary::after{content:'+';font-size:18px;line-height:1}
+details.ent[open] summary::after{content:'−'}
+details.ent .eb{padding:0 0 13px;font-size:13.5px;color:var(--txt);line-height:1.6}
+details.ent .eb .ex{display:block;margin-top:8px;color:var(--mut);font-style:italic}
+.sc{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin-top:12px}
+.sc>div{border-radius:12px;padding:14px;text-align:center}
+.sc .a{background:var(--card);border:1px solid rgba(255,255,255,.08)}
+.sc .b2{background:linear-gradient(150deg,#1E2761,#121633);border:1px solid var(--gold)}
+.sc .l{font-size:11px;color:var(--mut);text-transform:uppercase;letter-spacing:1px}
+.sc .v{font-family:'Playfair Display';font-size:24px;color:var(--gold);margin:2px 0}
+.sc .d{font-size:12px;color:var(--mut)}
+.cal{position:relative}
+.cv2{display:grid;grid-template-columns:118px 1fr;gap:14px;padding:14px 0;border-bottom:1px solid rgba(255,255,255,.06)}
+.cv2:last-child{border:0}
+.cv2 .dt{background:var(--navy);border:1px solid var(--line);border-radius:10px;padding:8px;text-align:center;align-self:start}
+.cv2 .dt b{display:block;font-family:'Playfair Display';color:var(--gold);font-size:15px}
+.cv2 .dt small{font-size:11px;color:var(--mut)}
+.cv2.hot .dt{border-color:var(--red);background:rgba(217,112,106,.12)}
+.cv2.hot .dt b{color:var(--red)}
+.cv2 h3{font-size:15px;font-family:'DM Sans';font-weight:700;margin-bottom:3px}
+.cv2 ul{list-style:none}
+.cv2 li{font-size:13px;color:var(--mut);padding:2px 0 2px 16px;position:relative}
+.cv2 li::before{content:'›';position:absolute;left:2px;color:var(--gold);font-weight:700}
+.flag{display:inline-block;font-size:10px;font-weight:700;color:var(--red);background:rgba(217,112,106,.15);padding:1px 7px;border-radius:10px;margin-left:6px;vertical-align:middle;letter-spacing:.5px}
+@media(max-width:600px){.cv2{grid-template-columns:92px 1fr}.sc .v{font-size:20px}}
+footer{padding:36px 0 56px;text-align:center}
+.sig{font-family:'Playfair Display';font-size:20px;color:var(--gold)}
+.sig-s{color:var(--mut);font-size:13px;margin-bottom:20px}
+footer .btn{width:auto}
+@media(max-width:600px){header .ans{font-size:44px}.sres .v{font-size:16px}.dec,.g2{grid-template-columns:1fr}.st .v{font-size:19px}.pp{grid-template-columns:78px 1fr}}
+</style>
+</head>
+<body>
+
+<div id="gate">
+  <div class="gbox">
+    <div class="tag">Acesso restrito</div>
+    <h2>Paula & Thiago</h2>
+    <p>Plano de Ação · Chegada do filho</p>
+    <input id="pw" type="password" placeholder="Digite sua senha" onkeydown="if(event.key==='Enter')unlock()">
+    <button class="btn" onclick="unlock()">Acessar</button>
+    <div id="err"></div>
+  </div>
+</div>
+
+<div id="app">
+<header>
+  <div class="wrap">
+    <div class="tag">Plano de Ação · Novembro 2026</div>
+    <div class="q">Paula, qual é a renda mínima que você precisa trazer?</div>
+    <div class="ans">R$ 4,7 mil<small>/mês</small></div>
+    <div class="sub">Somando <b>plantões e consultório</b>, é o necessário para cobrir os custos do consultório. A casa e o bebê já estão garantidos pela renda do Thiago. 💙</div>
+    <div class="hk">
+      <div>Custo da casa<b>R$ 20,7 mil</b></div>
+      <div>Com o bebê<b>R$ 24,0 mil</b></div>
+      <div>Renda do Thiago<b>R$ 35 mil</b></div>
+    </div>
+  </div>
+</header>
+<nav class="tabs"><div class="wrap"><button class="on" data-t="plano">📋 Plano de Ação</button><button data-t="analise">📊 Análise</button></div></nav>
+
+<div class="pane on" id="p-plano">
+<section style="padding:22px 0 8px;border:0"><div class="wrap">
+  <details class="ent"><summary>❓ Entenda: por que a renda mínima é o custo do consultório?</summary><div class="eb">O consultório tem custos fixos todo mês: estrutura, marketing, prestadores e impostos, cerca de <b>R$ 4,7 mil</b>. Se a renda da Paula (plantões + consultas) ficar abaixo disso, é a renda da família que cobre a diferença. Por isso o mínimo é <b>cobrir esse custo</b>, não importa se o dinheiro vem dos plantões, das consultas ou dos dois. Tudo o que entrar acima disso reforça o futuro de vocês.<span class="ex">Pense assim: o salário do Thiago é o chão da casa, porque paga tudo, inclusive o bebê. O trabalho da Paula só precisa sustentar o consultório. O resto é ganho.</span></div></details>
+  <details class="ent"><summary>❓ Entenda: por que alguns gastos ficaram de fora?</summary><div class="eb">Usamos a média de <b>agosto a outubro</b>, considerando o valor típico de cada categoria. Ficaram de fora os gastos <b>esporádicos</b>, que não se repetem todo mês: viagens, compras, presentes, roupas e picos pontuais (como R$ 4,4 mil em Casa em outubro). Eles continuam existindo, mas têm um lugar próprio no orçamento: a caixinha de esporádicos.</div></details>
+</div></section>
+
+<!-- 1 -->
+<section>
+<div class="wrap">
+  <div class="sec-n">01 · Quanto custa o filho de vocês</div>
+  <h2>A jornada em 4 marcos</h2>
+  <p class="lead">Os números que vocês levantaram na reunião, em valores de hoje.</p>
+  <div class="card"><div class="tl">
+    <div class="ti"><div class="w">Chegada</div><div class="row"><h3>Custos de uma vez</h3><span class="v">R$ 14,5 mil</span></div><p>Parto R$ 8 mil (pode zerar com o reembolso) · móveis R$ 3 mil · vacinas R$ 2,1 mil · berço, amamentação e quartinho R$ 1,4 mil</p></div>
+    <div class="ti"><div class="w">0 a 2 anos</div><div class="row"><h3>Fase do cuidado</h3><span class="v">+ R$ 3,3 mil/mês</span></div><p>Babá R$ 2 mil · pediatra R$ 500 · fraldas R$ 420 · fórmula R$ 350 · vitaminas R$ 60</p></div>
+    <div class="ti"><div class="w">3 anos</div><div class="row"><h3>Escola infantil</h3><span class="v">R$ 3 mil/mês</span></div><p>Entra no lugar da babá, das fraldas e da fórmula. O custo fica parecido.</p></div>
+    <div class="ti"><div class="w">6 anos</div><div class="row"><h3>Ensino fundamental</h3><span class="v">R$ 6 mil/mês</span></div><p>É o maior salto do orçamento. A folga da família diminui aqui.</p></div>
+  </div></div>
+</div>
+</section>
+
+<!-- 2 -->
+<section>
+<div class="wrap">
+  <div class="sec-n">02 · A família em cada fase</div>
+  <h2>Só com a renda do Thiago, quanto sobra?</h2>
+  <p class="lead">Considerando que a renda da Paula cobre o consultório. A régua saudável é guardar 20% ou mais.</p>
+  <div class="stairs">
+    <div class="st on" style="min-height:170px"><div class="f">0 a 2 anos</div><div class="v">R$ 11,0 mil</div><div class="c">31% guardado</div></div>
+    <div class="st" style="min-height:175px"><div class="f">3 a 5 anos</div><div class="v">R$ 11,3 mil</div><div class="c">32% guardado</div></div>
+    <div class="st" style="min-height:130px"><div class="f">6 anos +</div><div class="v">R$ 8,3 mil</div><div class="c">24% guardado</div></div>
+  </div>
+  <div class="ans-box">👉 <b>Paula, em todas as fases a casa está garantida.</b> Sua única meta mínima é cobrir os custos do consultório, com plantões, consultas ou os dois. Todo lucro acima disso é ganho para a família, e você tem até os 6 anos do filho para crescer com calma, quando a folga diminui.</div>
+  <details class="ent"><summary>❓ Entenda: por que guardar 20%?</summary><div class="eb">Guardar pelo menos <b>20% do que a família ganha</b> é a régua de uma família financeiramente saudável. É esse dinheiro que forma a reserva para imprevistos, paga os projetos e garante o futuro. Abaixo disso, as contas fecham, mas a família para de avançar.</div></details>
+</div>
+</section>
+
+<!-- 3 -->
+<section>
+<div class="wrap">
+  <div class="sec-n">03 · O orçamento do mês</div>
+  <h2>Como fica o mês com o bebê</h2>
+  <p class="lead">Valor típico de cada bloco (agosto a outubro) + bebê + espaço para os esporádicos.</p>
+  <div class="tw"><table>
+    <tr><th>Bloco</th><th class="r">Por mês</th></tr>
+    <tr><td>Despesas obrigatórias (casa, alimentação, saúde, seguros…)</td><td class="r">R$ 13.157</td></tr>
+    <tr><td>Bebê (0 a 2 anos)</td><td class="r">R$ 3.330</td></tr>
+    <tr><td>FIES</td><td class="r">R$ 2.043</td></tr>
+    <tr><td>Não obrigatórias (restaurantes, esportes, assinaturas, lazer)</td><td class="r">R$ 5.453</td></tr>
+    <tr><td>Custos do consultório da Paula</td><td class="r">R$ 4.656</td></tr>
+    <tr><td>Caixinha de esporádicos (viagens, compras, presentes)</td><td class="r">R$ 2.000</td></tr>
+    <tr class="tot"><td>Total do mês</td><td class="r">R$ 30.639</td></tr>
+  </table></div>
+  <div class="sc">
+    <div class="b2"><div class="l">Paula na renda atual (R$ 12 mil, plantões + consultório)</div><div class="v">R$ 15 mil</div><div class="d">Meta de investimento mensal</div></div>
+    <div class="a"><div class="l">Paula na renda mínima (R$ 4,7 mil)</div><div class="v">R$ 9 mil</div><div class="d">Meta de investimento mensal</div></div>
+  </div>
+  <p class="note">A meta atual no DashPlan (R$ 20 mil) foi pensada antes do bebê. A nova meta acompanha a renda da Paula: o que sobrar no mês vai para investimentos.</p>
+  <details class="ent"><summary>❓ Entenda: o que é a caixinha de esporádicos?</summary><div class="eb">Viagens, compras e presentes não acontecem todo mês, mas acontecem: em média, <b>R$ 2 mil por mês</b> nos últimos 3 meses. Em vez de serem uma surpresa, todo mês vocês separam esse valor numa caixinha. Quando o gasto aparecer, o dinheiro já está lá, sem bagunçar o orçamento.</div></details>
+</div>
+</section>
+
+<!-- 4 -->
+<section>
+<div class="wrap">
+  <div class="sec-n">04 · A decisão da maternidade</div>
+  <h2>Pegar ou não o plantão?</h2>
+  <p class="lead">Paula, você contou que já está reduzindo o ritmo, que desde que saiu de São Paulo ficou difícil achar plantão que encaixe na sua agenda e que o consultório é variável: abrir a agenda não garante dinheiro entrando. Apareceu a maternidade, mas lá é muito bagunçado, e você só pegaria se fosse essencial no financeiro.</p>
+  <div class="ans-box" style="margin:0 0 16px">👉 <b>Não é essencial.</b> A casa e o bebê estão cobertos pela renda do Thiago. O plantão só precisaria entrar se plantões + consultório não estiverem cobrindo os custos do consultório.</div>
+  <div class="g2" style="margin-bottom:14px">
+    <div class="bx2"><div class="i">🏥</div><div class="t">Plantões</div><p>Renda mais previsível. Bons para garantir o mínimo nos meses em que a agenda do consultório estiver fraca.</p></div>
+    <div class="bx2"><div class="i">🩺</div><div class="t">Consultório</div><p>Renda variável, mas é o que constrói o futuro. Cada consulta de R$ 480 conta. Sozinho, ~10 consultas por mês já cobrem o mínimo.</p></div>
+  </div>
+  <p class="lead">A regra para decidir:</p>
+  <div class="dec">
+    <div class="dc g"><div class="h">🟢 Plantões + consultório acima de R$ 4,7 mil</div>O mínimo está garantido. Pegar a maternidade ou outro plantão é decisão só profissional e de qualidade de vida.</div>
+    <div class="dc y"><div class="h">🟡 Abaixo de R$ 4,7 mil por 2 meses seguidos</div>Aí sim vale avaliar um plantão a mais ou rever custos do consultório. E a gente conversa antes.</div>
+  </div>
+  <details class="ent"><summary>❓ Entenda: por que "2 meses seguidos"?</summary><div class="eb">Um mês fraco é normal: férias de pacientes, feriados, agenda vazia. Isso não significa que algo deu errado. Só quando a renda fica abaixo do mínimo <b>dois meses em sequência</b> é que vale olhar com atenção.</div></details>
+</div>
+</section>
+
+<!-- 5 -->
+<section>
+<div class="wrap">
+  <div class="sec-n">05 · Simulador</div>
+  <h2>Teste qualquer mês</h2>
+  <div class="sim" style="margin-top:14px">
+    <label>Fase do filho</label>
+    <div class="seg" id="seg">
+      <button data-c="23983" class="on">0 a 2 anos</button>
+      <button data-c="23653">3 a 5 anos</button>
+      <button data-c="26653">6 anos +</button>
+    </div>
+    <label>Renda da Paula no mês (plantões + consultório)</label>
+    <div class="sval" id="sv">R$ 12.000</div>
+    <input type="range" id="rg" min="0" max="20000" step="250" value="12000">
+    <div class="sres">
+      <div><div class="l">Após custos do consultório</div><div class="v" id="r1">—</div></div>
+      <div><div class="l">Sobra da família</div><div class="v" id="r2">—</div></div>
+      <div><div class="l">% guardado</div><div class="v" id="r3">—</div></div>
+    </div>
+    <div id="sst"></div>
+  </div>
+  <p class="note">Renda da Paula − R$ 4.656 de custos do consultório. Sem os gastos esporádicos.</p>
+</div>
+</section>
+
+<!-- 6 -->
+<section>
+<div class="wrap">
+  <div class="sec-n">06 · Proteção da chegada</div>
+  <h2>Antes do parto</h2>
+  <div class="g2" style="margin-top:14px">
+    <div class="bx2"><div class="i">🍼</div><div class="t">Reserva da chegada</div><div class="v">R$ 14,5 mil</div><p>Custos de uma vez. Em liquidez diária.</p></div>
+    <div class="bx2"><div class="i">🤱</div><div class="t">Reserva da licença</div><div class="v">R$ 18,6 mil</div><p>4 meses dos custos do consultório, que continuam enquanto a Paula está de licença.</p></div>
+    <div class="bx2"><div class="i">🛡️</div><div class="t">Seguro de vida</div><p>Revisar com a Rafaele, incluindo os custos de criação e educação do filho.</p></div>
+    <div class="bx2"><div class="i">📄</div><div class="t">Salário-maternidade</div><p>Confirmar com o novo contador como a Paula contribui ao INSS. Pode reduzir bastante a reserva da licença.</p></div>
+  </div>
+  <div class="sub-h" style="margin-top:22px">Reserva da licença: com e sem INSS</div>
+  <div class="sc">
+    <div class="a"><div class="l">Sem salário-maternidade</div><div class="v">R$ 18,6 mil</div><div class="d">4 × R$ 4.656 de custos do consultório</div></div>
+    <div class="b2"><div class="l">Com salário-maternidade*</div><div class="v">R$ 12,1 mil</div><div class="d">O INSS paga cerca de R$ 6,5 mil (4 × R$ 1.621)</div></div>
+  </div>
+  <p class="note">* Cenário com contribuição sobre o salário mínimo. Se a Paula contribuir sobre um valor maior, o benefício é maior (até R$ 8.475,55/mês em 2026). 💡 Pausar o marketing durante a licença reduz mais R$ 800 por mês.</p>
+  <details class="ent"><summary>❓ Entenda: para que serve a reserva da licença?</summary><div class="eb">Durante a licença a Paula não atende, mas o consultório continua com custos: estrutura, prestadores, impostos. A reserva da licença é um dinheiro separado <b>antes do parto</b> que paga esses custos nos 4 meses. Assim a renda do Thiago segue cuidando só da casa, e o consultório não vira um peso.</div></details>
+  <details class="ent"><summary>❓ Entenda: o que é o salário-maternidade?</summary><div class="eb">É um benefício do <b>INSS</b> pago à mãe durante <b>120 dias</b> após o parto. Autônomas e profissionais com empresa também podem ter direito, desde que contribuam para o INSS. O valor depende de quanto ela contribui: no mínimo um salário mínimo (R$ 1.621 em 2026). O pedido é feito pelo app Meu INSS. O contador vai confirmar se a Paula tem direito e de quanto seria.</div></details>
+  <details class="ent"><summary>❓ Entenda: o que é "liquidez diária"?</summary><div class="eb">É um investimento que dá para <b>resgatar no mesmo dia</b>, sempre que precisar, sem perder o que já rendeu. Por exemplo: Tesouro Selic ou um CDB de liquidez diária. É o lugar certo para as reservas do bebê.</div></details>
+</div>
+</section>
+
+<!-- 7 -->
+<section>
+<div class="wrap">
+  <div class="sec-n">07 · Calendário de prazos</div>
+  <h2>O que fazer e quando</h2>
+  <p class="lead">Os prazos que não podem passar, em ordem.</p>
+  <div class="card cal">
+    <div class="cv2"><div class="dt"><b>Agora</b><small>até o parto</small></div><div><h3>Preparar a chegada</h3><ul><li>Separar a reserva da chegada e a da licença</li><li>Confirmar com o plano o reembolso do parto</li><li>Contador: como a Paula contribui ao INSS (salário-maternidade)</li><li>Seguro de vida com a Rafaele e definir os beneficiários</li></ul></div></div>
+    <div class="cv2"><div class="dt"><b>1ª semana</b><small>após o parto</small></div><div><h3>Documentos do bebê</h3><ul><li>Certidão de nascimento no cartório</li><li>CPF do bebê (necessário para o plano de saúde e o IR)</li><li>Pedir o salário-maternidade no Meu INSS, se houver direito</li></ul></div></div>
+    <div class="cv2 hot"><div class="dt"><b>Até 30 dias</b><small>após o parto</small></div><div><h3>Plano de saúde <span class="flag">PRAZO LEGAL</span></h3><ul><li>Incluir o bebê como dependente no plano, <b>sem carência</b></li><li>Depois desse prazo, a operadora pode exigir carência</li><li>Até a inclusão, o bebê fica coberto pelo plano dos pais nos primeiros 30 dias</li></ul></div></div>
+    <div class="cv2"><div class="dt"><b>120 dias</b><small>após o parto</small></div><div><h3>Fim da licença</h3><ul><li>Fim do salário-maternidade (regra geral)</li><li>Retorno gradual: meta de R$ 4,7 mil entre plantões e consultas</li></ul></div></div>
+    <div class="cv2"><div class="dt"><b>Próximo IR</b><small>após o nascimento</small></div><div><h3>Imposto de Renda com o filho</h3><ul><li>Filho como dependente: abate R$ 2.275,08 por ano</li><li>Parto, pediatra e exames: dedutíveis sem limite</li><li>Escola (a partir dos 3 anos): até R$ 3.561,50 por ano</li><li>Vale na declaração completa. O contador avalia se compensa</li></ul></div></div>
+  </div>
+  <details class="ent"><summary>❓ Entenda: por que guardar os recibos do bebê?</summary><div class="eb">Os gastos com saúde do filho (parto, pediatra, exames) podem ser <b>abatidos do Imposto de Renda</b>, sem limite de valor. Para isso, é preciso ter os recibos ou notas fiscais com o CPF de quem pagou. Uma pasta no celular com as fotos dos recibos já resolve.</div></details>
+</div>
+</section>
+
+<!-- 8 -->
+<section>
+<div class="wrap">
+  <div class="sec-n">08 · Plano pós-parto</div>
+  <h2>Depois que ele chegar</h2>
+  <p class="lead">O que fazer em cada etapa do primeiro ano.</p>
+  <div class="card">
+    <div class="pp"><div class="m">Mês 1 a 4<small>licença</small></div><div><h3>Foco no bebê, dinheiro no automático</h3><ul><li><b style="color:var(--red)">Até 30 dias: incluir o bebê no plano de saúde</b></li><li>A renda do Thiago paga a casa e o bebê</li><li>A reserva da licença (e o INSS, se houver) paga o consultório</li><li>Guardar os recibos do parto e do pediatra (Imposto de Renda)</li></ul></div></div>
+    <div class="pp"><div class="m">Mês 5 a 6<small>retorno</small></div><div><h3>Volta gradual ao consultório</h3><ul><li>Meta: R$ 4,7 mil por mês, somando plantões e consultas</li><li>Plantões ajudam a garantir o mínimo enquanto a agenda do consultório volta a encher</li><li>Retomar o marketing, se tiver sido pausado</li><li>Contratar a babá, se for o caso (R$ 2 mil/mês já previstos)</li><li>Reunião com o Matheus: custo previsto × custo real do bebê</li></ul></div></div>
+    <div class="pp"><div class="m">Mês 7 a 12<small>ajuste</small></div><div><h3>Novo orçamento da família</h3><ul><li>Atualizar o orçamento com os gastos reais do bebê</li><li>Recompor o que tiver sido usado das reservas</li><li>Ajustar a meta de investimento à nova realidade</li></ul></div></div>
+    <div class="pp"><div class="m">1 ano<small>revisão</small></div><div><h3>Revisão anual</h3><ul><li>Pediatra mensal sai do orçamento (–R$ 500)</li><li>Imposto de Renda: incluir o filho como dependente e as despesas médicas</li><li>Começar a planejar a escola dos 3 anos</li></ul></div></div>
+  </div>
+</div>
+</section>
+
+<!-- 9 -->
+<section>
+<div class="wrap">
+  <div class="sec-n">09 · Rotina do casal</div>
+  <h2>Para o orçamento não parar de novo</h2>
+  <div class="card" style="margin-top:14px">
+    <div class="rule"><span>1</span><div><b>Um encontro financeiro por mês, de 30 minutos.</b> Conferir a renda da Paula (plantões + consultório), a sobra do mês e os próximos gastos do bebê.</div></div>
+    <div class="rule"><span>2</span><div><b>Categorizar os lançamentos toda semana.</b> 10 minutos no DashPlan evitam acumular dezenas de pendências.</div></div>
+    <div class="rule"><span>3</span><div><b>O dinheiro é da família.</b> Se a Paula reduzir o ritmo agora, os dois estão investindo juntos nessa fase. Cada um contribui na proporção do que ganha, sem placar.</div></div>
+    <div class="rule"><span>4</span><div><b>Cada um com sua parte livre.</b> Um valor mensal para cada um usar sem dar satisfação, já dentro do orçamento.</div></div>
+  </div>
+</div>
+</section>
+
+<!-- 10 -->
+<section>
+<div class="wrap">
+  <div class="sec-n">10 · Checklist</div>
+  <h2>Próximos passos</h2>
+  <div style="display:flex;justify-content:space-between;align-items:center;margin-top:10px"><span style="color:var(--mut);font-size:13px">Concluídos</span><span class="cnt" id="cn">0/8</span></div>
+  <div class="prog"><div id="pb"></div></div>
+  <div class="card" id="cl">
+    <div class="ck" onclick="ck(this)"><div class="b"></div><div><div class="t">Separar a reserva da chegada (R$ 14,5 mil)</div><div class="who">Paula e Thiago</div></div></div>
+    <div class="ck" onclick="ck(this)"><div class="b"></div><div><div class="t">Separar a reserva da licença (R$ 12,1 a 18,6 mil)</div><div class="who">Paula e Thiago</div></div></div>
+    <div class="ck" onclick="ck(this)"><div class="b"></div><div><div class="t">Criar a caixinha de esporádicos (R$ 2 mil/mês)</div><div class="who">Paula e Thiago</div></div></div>
+    <div class="ck" onclick="ck(this)"><div class="b"></div><div><div class="t">Confirmar o reembolso do parto e o plano de saúde do bebê</div><div class="who">Paula e Thiago</div></div></div>
+    <div class="ck" onclick="ck(this)"><div class="b"></div><div><div class="t">Perguntar ao contador como a Paula contribui ao INSS (salário-maternidade)</div><div class="who">Paula e Thiago</div></div></div>
+    <div class="ck" onclick="ck(this)"><div class="b"></div><div><div class="t">Após o parto: certidão, CPF e incluir o bebê no plano em até 30 dias</div><div class="who">Paula e Thiago</div></div></div>
+    <div class="ck" onclick="ck(this)"><div class="b"></div><div><div class="t">Marcar o encontro financeiro mensal e definir a parte livre de cada um</div><div class="who">Paula e Thiago</div></div></div>
+    <div class="ck" onclick="ck(this)"><div class="b"></div><div><div class="t">Revisar a planilha do filho no Drive</div><div class="who">Paula e Thiago</div></div></div>
+  </div>
+</div>
+</section>
+</div>
+
+<div class="pane" id="p-analise">
+
+<section>
+<div class="wrap">
+  <div class="sec-n">A1 · Indicadores da família</div>
+  <h2>A saúde financeira em 4 números</h2>
+  <div class="kg" style="margin-top:14px">
+    <div class="kc"><div class="l">Cobertura pela renda do Thiago</div><div class="v">146%</div><div class="d">A renda dele cobre a casa com o bebê e ainda sobram 46%</div></div>
+    <div class="kc"><div class="l">Taxa de poupança projetada</div><div class="v">43%</div><div class="d">Com o bebê e a renda da Paula na média atual. Referência: 20%</div></div>
+    <div class="kc"><div class="l">Concentração de renda</div><div class="v">83%</div><div class="d">Parte da renda líquida da família que vem do Thiago</div></div>
+    <div class="kc"><div class="l">Reserva de emergência ideal</div><div class="v">R$ 172 mil</div><div class="d">6 meses do custo com bebê + consultório</div></div>
+  </div>
+  <details class="ent"><summary>❓ Como ler estes indicadores</summary><div class="eb"><b>Cobertura de 146%</b>: a renda do Thiago é quase uma vez e meia o custo da casa com o bebê. <b>Concentração de 83%</b>: a maior parte da renda vem de uma pessoa só, por isso a reserva de emergência é importante. <b>Reserva de R$ 172 mil</b>: o suficiente para viver 6 meses sem nenhuma renda.</div></details>
+  <div class="ins">💡 A família depende muito de uma renda só (83%), mas essa renda sozinha cobre tudo com folga. O ponto de atenção não é o mês a mês. É ter a <b>reserva de emergência</b> do tamanho certo para a nova fase.</div>
+</div>
+</section>
+
+<section>
+<div class="wrap">
+  <div class="sec-n">A2 · Histórico</div>
+  <h2>Os últimos 3 meses</h2>
+  <div class="tw" style="margin-top:14px"><table>
+    <tr><th>Bloco</th><th class="r">Ago</th><th class="r">Set</th><th class="r">Out</th><th class="r">Típico</th></tr>
+    <tr><td>Obrigatórias</td><td class="r">16.556</td><td class="r">11.056</td><td class="r">17.801</td><td class="r"><b>13.157</b></td></tr>
+    <tr><td>Consultório</td><td class="r">4.206</td><td class="r">4.352</td><td class="r">5.443</td><td class="r"><b>4.656</b></td></tr>
+    <tr><td>Não obrigatórias</td><td class="r">6.585</td><td class="r">8.913</td><td class="r">5.790</td><td class="r"><b>5.453</b></td></tr>
+    <tr><td>FIES</td><td class="r">2.043</td><td class="r">2.043</td><td class="r">2.043</td><td class="r"><b>2.043</b></td></tr>
+    <tr class="tot"><td>Total</td><td class="r">29.391</td><td class="r">26.364</td><td class="r">31.077</td><td class="r">25.309</td></tr>
+  </table></div>
+  <details class="ent"><summary>❓ Como ler esta tabela</summary><div class="eb">As três primeiras colunas são o que saiu das contas em cada mês. A coluna <b>"Típico"</b> é o valor normal de cada categoria, sem os picos e sem os gastos esporádicos. É ela que usamos no plano.</div></details>
+  <div class="ins">💡 Os gastos que não se repetem pesaram entre <b>R$ 1 mil e R$ 5,8 mil</b> por mês. Os maiores foram Casa em outubro (R$ 4,4 mil), Transporte em agosto (R$ 3 mil) e viagens e compras em setembro (R$ 2,1 mil). Restaurantes (R$ 2,3 mil típico) e esportes (R$ 2,2 mil) são as maiores despesas não obrigatórias.</div>
+</div>
+</section>
+
+<section>
+<div class="wrap">
+  <div class="sec-n">A3 · Matriz de sensibilidade</div>
+  <h2>Quanto a família guarda em cada cenário</h2>
+  <p class="lead">% da renda líquida guardada, cruzando a renda da Paula (plantões + consultório) com a fase do filho.</p>
+  <div class="tw"><table class="hm">
+    <tr><th>Renda da Paula</th><th class="c">0 a 2 anos</th><th class="c">3 a 5 anos</th><th class="c">6 anos +</th></tr>
+    <tr><td>R$ 0</td><td class="c h3">21%</td><td class="c h3">22%</td><td class="c h1">12%</td></tr>
+    <tr><td><b>R$ 4,7 mil</b></td><td class="c h4">31%</td><td class="c h4">32%</td><td class="c h3">24%</td></tr>
+    <tr><td>R$ 8 mil</td><td class="c h4">37%</td><td class="c h4">38%</td><td class="c h4">30%</td></tr>
+    <tr><td>R$ 12 mil</td><td class="c h4">43%</td><td class="c h4">44%</td><td class="c h4">37%</td></tr>
+    <tr><td>R$ 15 mil</td><td class="c h4">47%</td><td class="c h4">48%</td><td class="c h4">41%</td></tr>
+  </table></div>
+  <details class="ent"><summary>❓ Como ler esta tabela</summary><div class="eb">Escolha uma <b>linha</b> (quanto a Paula recebeu no mês, entre plantões e consultas) e uma <b>coluna</b> (a idade do filho). O número no cruzamento é quanto da renda a família consegue guardar. 🟢 Verde: 20% ou mais, família saudável. 🔴 Vermelho: guarda pouco.<span class="ex">Exemplo: se a Paula receber R$ 8 mil quando o filho tiver 1 ano, a família guarda 37%.</span></div></details>
+  <div class="ins">💡 Até os 5 anos do filho, a família fica no verde <b>mesmo se a Paula ficar sem renda</b>. Só na fase do fundamental a renda dela precisa, de fato, cobrir o consultório.</div>
+</div>
+</section>
+
+<section>
+<div class="wrap">
+  <div class="sec-n">A4 · Custo total do filho</div>
+  <h2>Do nascimento aos 14 anos</h2>
+  <p class="lead">Soma dos custos levantados na reunião, em valores de hoje (sem inflação, sem ensino médio e faculdade).</p>
+  <div class="kc" style="text-align:center"><div class="l">Investimento total estimado</div><div class="v" style="font-size:38px">R$ 850 mil</div><div class="d">Média de cerca de R$ 5 mil por mês ao longo de 14 anos</div></div>
+  <div class="stack">
+    <div style="width:1.7%;background:#E3C877"></div>
+    <div style="width:9.4%;background:#C9A84C"></div>
+    <div style="width:12.7%;background:#5a6bc0"></div>
+    <div style="width:76.2%;background:#1E2761;border-left:1px solid var(--bg)"></div>
+  </div>
+  <div class="leg">
+    <div><i style="background:#E3C877"></i>Chegada · R$ 14,5 mil (2%)</div>
+    <div><i style="background:#C9A84C"></i>0 a 2 anos · R$ 80 mil (9%)</div>
+    <div><i style="background:#5a6bc0"></i>3 a 5 anos · R$ 108 mil (13%)</div>
+    <div><i style="background:#1E2761;border:1px solid var(--gold)"></i>6 a 14 anos · R$ 648 mil (76%)</div>
+  </div>
+  <details class="ent"><summary>❓ Como ler esta barra</summary><div class="eb">A barra inteira é o custo total do filho até os 14 anos. Cada cor é uma fase. Quanto maior o pedaço, mais aquela fase pesa no total.</div></details>
+  <div class="ins">💡 <b>76% do custo está no ensino fundamental.</b> Os primeiros anos, que hoje preocupam mais, são a parte menor. O grande planejamento é para daqui a 6 anos, e há tempo de sobra para isso.</div>
+</div>
+</section>
+
+<section>
+<div class="wrap">
+  <div class="sec-n">A5 · Teste de estresse</div>
+  <h2>E se algo sair do previsto?</h2>
+  <p class="lead">Fase de 0 a 2 anos. Sobra mensal da família em cada cenário.</p>
+  <div class="tw"><table>
+    <tr><th>Cenário</th><th class="r">Sobra/mês</th><th class="r">% guardado</th></tr>
+    <tr><td>Base (Thiago R$ 35 mil + Paula R$ 12 mil)</td><td class="r">R$ 18,4 mil</td><td class="r"><span class="pill">43%</span></td></tr>
+    <tr><td>Custos do bebê 30% acima do previsto</td><td class="r">R$ 17,4 mil</td><td class="r"><span class="pill">41%</span></td></tr>
+    <tr><td>Renda do Thiago cai 20%</td><td class="r">R$ 11,4 mil</td><td class="r"><span class="pill">32%</span></td></tr>
+    <tr><td>Paula sem renda (custos do consultório continuam)</td><td class="r">R$ 6,4 mil</td><td class="r"><span class="pill">21%</span></td></tr>
+    <tr><td>Thiago −20% <b>e</b> Paula sem renda</td><td class="r" style="color:var(--red)">− R$ 0,6 mil</td><td class="r"><span class="pill" style="background:rgba(217,112,106,.15);color:var(--red)">−3%</span></td></tr>
+  </table></div>
+  <details class="ent"><summary>❓ Como ler o teste de estresse</summary><div class="eb">Testamos o que acontece com o orçamento se algo der errado: o Thiago ganhar menos, a Paula ficar sem renda, o bebê custar mais. É como um "simulado" de crise. Quanto mais cenários continuam positivos, mais preparada a família está.</div></details>
+  <div class="ins">💡 Só um <b>choque duplo</b> deixa a família no negativo, e mesmo assim por muito pouco (R$ 640/mês). Uma reserva de emergência de R$ 172 mil cobriria esse déficit por mais de 20 anos. A estrutura de vocês é <b>muito resiliente</b>.</div>
+</div>
+</section>
+
+<section>
+<div class="wrap">
+  <div class="sec-n">A6 · Metodologia</div>
+  <h2>Como chegamos aos números</h2>
+  <div class="card" style="margin-top:14px;font-size:13px;color:var(--mut)">
+    <p><b style="color:var(--txt)">Renda:</b> médias cadastradas no DashPlan (Thiago R$ 35 mil · Paula R$ 12 mil, entre plantões e consultório).</p>
+    <p style="margin-top:6px"><b style="color:var(--txt)">Custo típico:</b> valor central de cada categoria entre agosto e outubro/2026, sem viagens, compras, presentes e vestuário (R$ 25,3 mil, sendo R$ 4,7 mil do consultório).</p>
+    <p style="margin-top:6px"><b style="color:var(--txt)">Custo por fase:</b> custo da casa (R$ 20,7 mil) + bebê (R$ 3.330) · + escola infantil (R$ 3.000) · + fundamental (R$ 6.000).</p>
+    <p style="margin-top:6px"><b style="color:var(--txt)">Renda mínima:</b> renda da Paula (plantões + consultório) que cobre os custos do consultório. Com ele, a família guarda mais de 20% em todas as fases.</p>
+    <p style="margin-top:6px"><b style="color:var(--txt)">A confirmar:</b> reembolso do parto, plano de saúde do bebê, valor por dose da vacina e salário-maternidade.</p>
+  </div>
+</div>
+</section>
+</div>
+
+<footer>
+<div class="wrap">
+  <div class="sig">Matheus Melo</div>
+  <div class="sig-s">Financial Advisor Master · Grão | Grupo Primo</div>
+  <a class="btn" href="https://wa.me/5599991756837?text=Oi%20Matheus!%20Vi%20o%20plano%20e%20queria%20conversar." target="_blank">Falar com o Matheus no WhatsApp</a>
+</div>
+</footer>
+</div>
+
+<script>
+function unlock(){if(document.getElementById('pw').value.trim().toLowerCase()==='casal2026'){document.getElementById('gate').style.display='none';document.getElementById('app').style.display='block';sim()}else{document.getElementById('err').textContent='Senha incorreta. Tente novamente.'}}
+function ck(e){e.classList.toggle('done');var a=document.querySelectorAll('.ck'),d=document.querySelectorAll('.ck.done').length;document.getElementById('cn').textContent=d+'/'+a.length;document.getElementById('pb').style.width=(d/a.length*100)+'%'}
+var T=35000,K=4656,C=23983;
+function f(n){return (n<0?'− ':'')+'R$ '+Math.abs(Math.round(n)).toLocaleString('pt-BR')}
+function sim(){var p=+document.getElementById('rg').value,L=p-K,R=T+L,S=R-C,pc=S/R*100;
+document.getElementById('sv').textContent=f(p);
+var r1=document.getElementById('r1');r1.textContent=f(L);r1.style.color=L<0?'var(--red)':'var(--txt)';
+var r2=document.getElementById('r2');r2.textContent=f(S);r2.style.color=S<0?'var(--red)':'var(--txt)';
+var r3=document.getElementById('r3');r3.textContent=Math.round(pc)+'%';r3.style.color=pc>=20?'var(--ok)':(pc>=0?'var(--warn)':'var(--red)');
+var st=document.getElementById('sst');
+if(L>=0&&pc>=20){st.style.background='rgba(95,191,143,.15)';st.style.color='var(--ok)';st.innerHTML='🟢 <b>Custos do consultório cobertos</b> e a família guarda mais de 20%.'}
+else if(pc>=20){st.style.background='rgba(224,168,76,.15)';st.style.color='var(--warn)';st.innerHTML='🟡 <b>A família segue saudável</b>, mas a renda da Paula não cobriu o consultório: faltaram '+f(-L)+'. Se repetir por 2 meses, um plantão a mais resolve.'}
+else{st.style.background='rgba(217,112,106,.15)';st.style.color='var(--red)';st.innerHTML='🔴 <b>Abaixo de 20% guardado.</b> Usar a reserva e rever os custos do consultório.'}}
+document.getElementById('rg').addEventListener('input',sim);
+document.querySelectorAll('#seg button').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('#seg button').forEach(function(x){x.classList.remove('on')});b.classList.add('on');C=+b.dataset.c;sim()})});
+document.querySelectorAll('.tabs button').forEach(function(b){b.addEventListener('click',function(){document.querySelectorAll('.tabs button').forEach(function(x){x.classList.remove('on')});b.classList.add('on');document.querySelectorAll('.pane').forEach(function(p){p.classList.remove('on')});document.getElementById('p-'+b.dataset.t).classList.add('on');window.scrollTo({top:document.querySelector('.tabs').offsetTop,behavior:'smooth'})})});
+</script>
+</body>
+</html>
